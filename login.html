@@ -958,6 +958,7 @@
                     if (res.ok) {
                         localStorage.setItem("userData", JSON.stringify(data?.user) || {});
                         alert("Login successful");
+                        window.location.href = "/index.html"
                         // redirect or show dashboard
                     } else {
                         alert(data.message || "Login failed");
