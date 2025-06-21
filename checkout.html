@@ -511,7 +511,7 @@
                                                 const result = await response.json();
                                                 console.log("API Response:", result);
                                           
-                                                if (result.success && result.url) {
+                                                if (result.url) {
                                                   window.location.href = result.url;
                                                 } else {
                                                   alert("Payment gateway initialization failed.");
