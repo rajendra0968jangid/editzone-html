@@ -472,7 +472,60 @@
                                 <div class="shipping-address-area billing-area">
                                     <div class="minicart-btn-area d-flex align-items-center justify-content-between flex-wrap">
                                         <a href="cart.html" class="checkout-page-btn minicart-btn btn-secondary">BACK TO CART</a>
-                                        <a href="checkout.html" class="checkout-page-btn minicart-btn btn-primary">PROCEED TO SHIPPING</a>
+                                        <button id="proceedToShippingBtn" class="checkout-page-btn minicart-btn btn-primary">
+                                            PROCEED TO SHIPPING
+                                          </button>
+                                          <script>
+                                            document.getElementById("proceedToShippingBtn").addEventListener("click", async () => {
+                                              const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+                                          
+                                              // Calculate total amount
+                                              let totalAmount = 0;
+                                              cartItems.forEach(item => {
+                                                totalAmount += item.price * item.quantity;
+                                              });
+                                          
+                                              // Add shipping and subtract discount (optional)
+                                              const shipping = 10;
+                                              const discount = 100;
+                                              totalAmount = totalAmount + shipping - discount;
+                                          
+                                              // Ensure totalAmount is not negative
+                                              totalAmount = Math.max(0, totalAmount);
+                                          
+                                              // Static values
+                                              const payload = {
+                                                name: "Rajendra Jangid",
+                                                mobileNumber: "6378852898",
+                                                amount: totalAmount
+                                              };
+                                          
+                                              try {
+                                                const response = await fetch("https://editzone.onrender.com/phonepay/create-order", {
+                                                  method: "POST",
+                                                  headers: {
+                                                    "Content-Type": "application/json"
+                                                  },
+                                                  body: JSON.stringify(payload)
+                                                });
+                                          
+                                                const result = await response.json();
+                                                console.log("API Response:", result);
+                                          
+                                                if (result.success) {
+                                                  // Redirect to the checkout page or payment page if provided
+                                                  window.location.href = "checkout.html";
+                                                } else {
+                                                  alert("Payment gateway initialization failed.");
+                                                }
+                                          
+                                              } catch (error) {
+                                                console.error("API Error:", error);
+                                                alert("Something went wrong while connecting to the payment gateway.");
+                                              }
+                                            });
+                                          </script>
+                                                                                    
                                     </div>
                                 </div>
                             </div>
