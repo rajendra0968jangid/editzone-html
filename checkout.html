@@ -475,25 +475,24 @@
                                         <button id="proceedToShippingBtn" class="checkout-page-btn minicart-btn btn-primary">
                                             PROCEED TO SHIPPING
                                           </button>
+                                          
                                           <script>
                                             document.getElementById("proceedToShippingBtn").addEventListener("click", async () => {
+                                              const button = document.getElementById("proceedToShippingBtn");
+                                              button.disabled = true;
+                                              button.innerText = "Processing...";
+                                          
                                               const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
                                           
-                                              // Calculate total amount
                                               let totalAmount = 0;
                                               cartItems.forEach(item => {
                                                 totalAmount += item.price * item.quantity;
                                               });
                                           
-                                              // Add shipping and subtract discount (optional)
                                               const shipping = 0;
                                               const discount = 0;
-                                              totalAmount = totalAmount + shipping - discount;
+                                              totalAmount = Math.max(0, totalAmount + shipping - discount);
                                           
-                                              // Ensure totalAmount is not negative
-                                              totalAmount = Math.max(0, totalAmount);
-                                          
-                                              // Static values
                                               const payload = {
                                                 name: "Rajendra Jangid",
                                                 mobileNumber: "6378852898",
@@ -512,19 +511,22 @@
                                                 const result = await response.json();
                                                 console.log("API Response:", result);
                                           
-                                                if (result.success) {
-                                                  // Redirect to the checkout page or payment page if provided
-                                                  window.location.href = "checkout.html";
+                                                if (result.success && result.url) {
+                                                  window.location.href = result.url;
                                                 } else {
                                                   alert("Payment gateway initialization failed.");
+                                                  button.disabled = false;
+                                                  button.innerText = "PROCEED TO SHIPPING";
                                                 }
-                                          
                                               } catch (error) {
                                                 console.error("API Error:", error);
                                                 alert("Something went wrong while connecting to the payment gateway.");
+                                                button.disabled = false;
+                                                button.innerText = "PROCEED TO SHIPPING";
                                               }
                                             });
                                           </script>
+                                          
                                                                                     
                                     </div>
                                 </div>
