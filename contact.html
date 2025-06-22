@@ -107,24 +107,36 @@
                                         try {
                                             const user = JSON.parse(localStorage.getItem("userData"));
                                             const userDataEl = document.getElementById("userdata1");
+                                            const userDataEl2 = document.getElementById("userdata2");
                                             const userLink = document.getElementById("user-link");
+                                            const userLink1 = document.getElementById("user-link1");
 
                                             if (user && user.email) {
                                                 userDataEl.innerText = "Logout";
+                                                userDataEl2.innerText = "Logout";
                                                 userLink.style.cursor = "pointer";
+                                                userLink2.style.cursor = "pointer";
                                                 userLink.addEventListener("click", function (e) {
+                                                    e.preventDefault(); // ⛔ stop default <a> tag behavior
+                                                    localStorage.removeItem("userData");
+                                                    location.reload(); // 🔄 reload page to reflect logout
+                                                });
+                                                userLink2.addEventListener("click", function (e) {
                                                     e.preventDefault(); // ⛔ stop default <a> tag behavior
                                                     localStorage.removeItem("userData");
                                                     location.reload(); // 🔄 reload page to reflect logout
                                                 });
                                             } else {
                                                 userDataEl.innerText = "Login";
+                                                userDataEl2.innerText = "Login";
                                                 userLink.href = "/login.html"; // ✅ only link to login if not logged in
+                                                userLink2.href = "/login.html"; // ✅ only link to login if not logged in
                                             }
 
                                         } catch (err) {
                                             console.error("Invalid user data in localStorage", err);
                                             document.getElementById("userdata1").innerText = "Login";
+                                            document.getElementById("userdata2").innerText = "Login";
                                         }
                                     }
 
@@ -815,7 +827,7 @@
                             </a>
                         </li>
                         <li class="utilty-menu-item">
-                            <a class="announcement-login announcement-text" href="login.html">
+                            <a class="announcement-login announcement-text" href="login.html" id="user-link1">
                                 <span class="utilty-icon-wrapper">
                                     <svg class="icon icon-user" width="24" height="24" viewBox="0 0 10 11" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -824,7 +836,7 @@
                                             fill="#000" />
                                     </svg>
                                 </span>
-                                <span id="userdata1">Login</span>
+                                <span id="userdata2">Login</span>
                             </a>
                         </li>
                         <li class="utilty-menu-item">
