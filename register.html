@@ -702,18 +702,46 @@
                             </a>
                         </li>
                         <li class="utilty-menu-item">
-                            <a class="announcement-login announcement-text" href="login.html">
-                                <span class="utilty-icon-wrapper">
-                                    <svg class="icon icon-user" width="24" height="24" viewBox="0 0 10 11" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M5 0C3.07227 0 1.5 1.57227 1.5 3.5C1.5 4.70508 2.11523 5.77539 3.04688 6.40625C1.26367 7.17188 0 8.94141 0 11H1C1 8.78516 2.78516 7 5 7C7.21484 7 9 8.78516 9 11H10C10 8.94141 8.73633 7.17188 6.95312 6.40625C7.88477 5.77539 8.5 4.70508 8.5 3.5C8.5 1.57227 6.92773 0 5 0ZM5 1C6.38672 1 7.5 2.11328 7.5 3.5C7.5 4.88672 6.38672 6 5 6C3.61328 6 2.5 4.88672 2.5 3.5C2.5 2.11328 3.61328 1 5 1Z"
-                                            fill="#000" />
-                                    </svg>
-                                </span>
-                                <span>Login</span>
+                            <a class="announcement-login announcement-text" href="login.html" id="user-link-mobile">
+                              <span class="utilty-icon-wrapper">
+                                <svg class="icon icon-user" width="24" height="24" viewBox="0 0 10 11" fill="none"
+                                  xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M5 0C3.07227 0 1.5 1.57227 1.5 3.5C1.5 4.70508 2.11523 5.77539 3.04688 6.40625C1.26367 7.17188 0 8.94141 0 11H1C1 8.78516 2.78516 7 5 7C7.21484 7 9 8.78516 9 11H10C10 8.94141 8.73633 7.17188 6.95312 6.40625C7.88477 5.77539 8.5 4.70508 8.5 3.5C8.5 1.57227 6.92773 0 5 0ZM5 1C6.38672 1 7.5 2.11328 7.5 3.5C7.5 4.88672 6.38672 6 5 6C3.61328 6 2.5 4.88672 2.5 3.5C2.5 2.11328 3.61328 1 5 1Z"
+                                    fill="#000" />
+                                </svg>
+                              </span>
+                              <span id="userdata2">Login</span>
                             </a>
-                        </li>
+                          </li>
+                          
+                          <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                              try {
+                                const user = JSON.parse(localStorage.getItem("userData"));
+                                const userDataEl = document.getElementById("userdata2");
+                                const userLink = document.getElementById("user-link-mobile");
+                          
+                                if (user && user.email) {
+                                  userDataEl.innerText = "Logout";
+                                  userLink.style.cursor = "pointer";
+                                  userLink.addEventListener("click", function (e) {
+                                    e.preventDefault(); // Prevent navigation
+                                    localStorage.removeItem("userData");
+                                    location.reload(); // Reload page to show login again
+                                  });
+                                } else {
+                                  userDataEl.innerText = "Login";
+                                  userLink.href = "/login.html"; // Go to login page if not logged in
+                                }
+                          
+                              } catch (err) {
+                                console.error("Invalid user data in localStorage", err);
+                                document.getElementById("userdata2").innerText = "Login";
+                              }
+                            });
+                          </script>
+                          
                         <li class="utilty-menu-item">
                             <a class="header-action-item header-wishlist" href="wishlist.html">
                                 <span class="utilty-icon-wrapper">
