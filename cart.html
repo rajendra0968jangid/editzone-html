@@ -64,158 +64,7 @@
             --section-subheading-font-weight: 400;
         }
     </style>
-    <script>
-        // Initialize cart array from localStorage or empty array
-        let shoppingCart = JSON.parse(localStorage.getItem("cartItems")) || [];
 
-        // Function to save cart to localStorage
-        function saveCartToStorage() {
-            localStorage.setItem("cartItems", JSON.stringify(shoppingCart));
-        }
-
-        // Function to add item to cart
-        function addItemToCart(productName) {
-            // Find if product already exists in cart
-            const existingCartItem = shoppingCart.find(item => item.name === productName);
-
-            if (existingCartItem) {
-                existingCartItem.quantity++;
-            } else {
-                // Add new item to cart
-                shoppingCart.push({
-                    name: productName,
-                    price: fetchProductPrice(productName),
-                    image: fetchProductImage(productName),
-                    link: fetchProductLink(productName),
-                    quantity: 1
-                });
-            }
-
-            saveCartToStorage();
-            updateCartDisplay();
-        }
-
-        // Function to increase quantity
-        function incrementItemQuantity(productName) {
-            const cartItem = shoppingCart.find(item => item.name === productName);
-            if (cartItem) {
-                cartItem.quantity++;
-                saveCartToStorage();
-                updateCartDisplay();
-            }
-        }
-
-        // Function to decrease quantity
-        function decrementItemQuantity(productName) {
-            const cartItem = shoppingCart.find(item => item.name === productName);
-            if (cartItem) {
-                if (cartItem.quantity > 1) {
-                    cartItem.quantity--;
-                } else {
-                    // Remove item if quantity would become 0
-                    removeItemFromCart(productName);
-                    return;
-                }
-                saveCartToStorage();
-                updateCartDisplay();
-            }
-        }
-
-        // Function to remove item from cart
-        function removeItemFromCart(productName) {
-            shoppingCart = shoppingCart.filter(item => item.name !== productName);
-            saveCartToStorage();
-            updateCartDisplay();
-        }
-
-        // Helper function to get product price
-        function fetchProductPrice(productName) {
-            if (productName === "Edius 11") return 1000;
-            if (productName === "Album Sense") return 1529;
-            if (productName === "Cut Sense") return 1529;
-            return 0;
-        }
-
-        // Helper function to get product image
-        function fetchProductImage(productName) {
-            if (productName === "Edius 11") return "assets/img/products/grass-valley-edius-11.png";
-            if (productName === "Album Sense") return "assets/img/products/insidelogic-album-sense.png";
-            if (productName === "Cut Sense") return "assets/img/products/cut.png";
-            return "";
-        }
-
-        // Helper function to get product link
-        function fetchProductLink(productName) {
-            if (productName === "Edius 11") return "edius11.html";
-            if (productName === "Album Sense") return "album-sense.html";
-            if (productName === "Cut Sense") return "cut-sense.html";
-            return "#";
-        }
-
-        // Function to render the cart drawer
-        function updateCartDisplay() {
-            const container = document.getElementById("cart-items-container");
-            const countElement = document.getElementById("cart-count");
-            const subtotalElement = document.getElementById("cart-subtotal");
-            const emptyCartElement = document.getElementById("cart-empty");
-
-            container.innerHTML = "";
-
-            if (shoppingCart.length === 0) {
-                emptyCartElement.classList.remove("d-none");
-                countElement.textContent = "0";
-                subtotalElement.textContent = "₹0.00";
-                return;
-            }
-
-            emptyCartElement.classList.add("d-none");
-
-            let subtotal = 0;
-            shoppingCart.forEach(item => {
-                subtotal += item.price * item.quantity;
-                const itemHTML = `
-                <div class="minicart-item d-flex">
-                    <div class="mini-img-wrapper">
-                        <img class="mini-img" src="${item.image}" alt="${item.name}">
-                    </div>
-                    <div class="product-info">
-                        <h2 class="product-title"><a href="${item.link}">${item.name}</a></h2>
-                        <div class="misc d-flex align-items-end justify-content-between">
-                            <div class="quantity d-flex align-items-center justify-content-between">
-                                <button class="qty-btn dec-qty" onclick="decrementItemQuantity('${item.name}')">
-                                    <img src="assets/img/icon/minus.svg" alt="minus">
-                                </button>
-                                <input class="qty-input" type="number" name="qty" value="${item.quantity}" readonly>
-                                <button class="qty-btn inc-qty" onclick="incrementItemQuantity('${item.name}')">
-                                    <img src="assets/img/icon/plus.svg" alt="plus">
-                                </button>
-                            </div>
-                            <div class="product-remove-area d-flex flex-column align-items-end">
-                                <div class="product-price">₹${(item.price * item.quantity).toFixed(2)}</div>
-                                <a href="#" class="product-remove" onclick="removeItemFromCart('${item.name}')">Remove</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-                container.insertAdjacentHTML("beforeend", itemHTML);
-            });
-
-            countElement.textContent = shoppingCart.reduce((sum, item) => sum + item.quantity, 0);
-            subtotalElement.textContent = `₹${subtotal.toFixed(2)}`;
-        }
-
-        // Initial render when page loads
-        document.addEventListener('DOMContentLoaded', function () {
-            updateCartDisplay();
-        });
-
-        // Update cart when storage changes (from other tabs/windows)
-        window.addEventListener('storage', () => {
-            shoppingCart = JSON.parse(localStorage.getItem("cartItems")) || [];
-            updateCartDisplay();
-        });
-    </script>
     <link rel="stylesheet" href="assets/css/vendor.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -1037,7 +886,168 @@
             </div>
         </div>
     
-        
+        <script>
+            // Initialize cart array from localStorage or empty array
+            let shoppingCart = JSON.parse(localStorage.getItem("cartItems")) || [];
+    
+            // Function to save cart to localStorage
+            function saveCartToStorage() {
+                localStorage.setItem("cartItems", JSON.stringify(shoppingCart));
+            }
+    
+            // Function to add item to cart
+            function addItemToCart(productName) {
+                // Find if product already exists in cart
+                const existingCartItem = shoppingCart.find(item => item.name === productName);
+    
+                if (existingCartItem) {
+                    existingCartItem.quantity++;
+                } else {
+                    // Add new item to cart
+                    shoppingCart.push({
+                        name: productName,
+                        price: fetchProductPrice(productName),
+                        image: fetchProductImage(productName),
+                        link: fetchProductLink(productName),
+                        quantity: 1
+                    });
+                }
+    
+                saveCartToStorage();
+                updateCartDisplay();
+            }
+    
+            // Function to increase quantity
+            function incrementItemQuantity(productName) {
+                const cartItem = shoppingCart.find(item => item.name === productName);
+                if (cartItem) {
+                    cartItem.quantity++;
+                    saveCartToStorage();
+                    updateCartDisplay();
+                }
+            }
+    
+            // Function to decrease quantity
+            function decrementItemQuantity(productName) {
+                const cartItem = shoppingCart.find(item => item.name === productName);
+                if (cartItem) {
+                    if (cartItem.quantity > 1) {
+                        cartItem.quantity--;
+                    } else {
+                        // Remove item if quantity would become 0
+                        removeItemFromCart(productName);
+                        return;
+                    }
+                    saveCartToStorage();
+                    updateCartDisplay();
+                }
+            }
+    
+            // Function to remove item from cart
+            function removeItemFromCart(productName) {
+                shoppingCart = shoppingCart.filter(item => item.name !== productName);
+                saveCartToStorage();
+                updateCartDisplay();
+            }
+    
+            // Helper function to get product price
+            function fetchProductPrice(productName) {
+                if (productName === "Edius 11") return 1529;
+                if (productName === "Album Sense") return 1529;
+                if (productName === "Cut Sense") return 1529;
+                return 0;
+            }
+    
+            // Helper function to get product image
+            function fetchProductImage(productName) {
+                if (productName === "Edius 11") return "assets/img/products/grass-valley-edius-11.png";
+                if (productName === "Album Sense") return "assets/img/products/insidelogic-album-sense.png";
+                if (productName === "Cut Sense") return "assets/img/products/cut.png";
+                return "";
+            }
+    
+            // Helper function to get product link
+            function fetchProductLink(productName) {
+                if (productName === "Edius 11") return "edius11.html";
+                if (productName === "Album Sense") return "album-sense.html";
+                if (productName === "Cut Sense") return "cut-sense.html";
+                return "#";
+            }
+    
+            // Function to render the cart drawer
+            function updateCartDisplay() {
+                const container = document.getElementById("cart-items-container");
+                const countElement = document.getElementById("cart-count");
+                const subtotalElement = document.getElementById("cart-subtotal");
+                const emptyCartElement = document.getElementById("cart-empty");
+    
+                container.innerHTML = "";
+    
+                if (shoppingCart.length === 0) {
+                    emptyCartElement.classList.remove("d-none");
+                    countElement.textContent = "0";
+                    subtotalElement.textContent = "₹0.00";
+                    return;
+                }
+    
+                emptyCartElement.classList.add("d-none");
+    
+                let subtotal = 0;
+                shoppingCart.forEach(item => {
+                    subtotal += item.price * item.quantity;
+                    const itemHTML = `
+                    <div class="minicart-item d-flex">
+                        <div class="mini-img-wrapper">
+                            <img class="mini-img" src="${item.image}" alt="${item.name}">
+                        </div>
+                        <div class="product-info">
+                            <h2 class="product-title"><a href="${item.link}">${item.name}</a></h2>
+                            <div class="misc d-flex align-items-end justify-content-between">
+                                <div class="quantity d-flex align-items-center justify-content-between">
+                                    <button class="qty-btn dec-qty" onclick="decrementItemQuantity('${item.name}')">
+                                        <img src="assets/img/icon/minus.svg" alt="minus">
+                                    </button>
+                                    <input class="qty-input" type="number" name="qty" value="${item.quantity}" readonly>
+                                    <button class="qty-btn inc-qty" onclick="incrementItemQuantity('${item.name}')">
+                                        <img src="assets/img/icon/plus.svg" alt="plus">
+                                    </button>
+                                </div>
+                                <div class="product-remove-area d-flex flex-column align-items-end">
+                                    <div class="product-price">₹${(item.price * item.quantity).toFixed(2)}</div>
+                                    <a href="#" class="product-remove" onclick="removeItemFromCart('${item.name}')">Remove</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                    container.insertAdjacentHTML("beforeend", itemHTML);
+                });
+    
+                countElement.textContent = shoppingCart.reduce((sum, item) => sum + item.quantity, 0);
+                subtotalElement.textContent = `₹${subtotal.toFixed(2)}`;
+            }
+    
+            // Initial render when page loads
+            document.addEventListener('DOMContentLoaded', function () {
+                const container = document.getElementById("cart-items-container");
+                const countElement = document.getElementById("cart-count");
+                const subtotalElement = document.getElementById("cart-subtotal");
+            
+                // Only update if all elements exist
+                if (container && countElement && subtotalElement) {
+                    updateCartDisplay();
+                } else {
+                    console.warn("Cart elements not found in DOM yet.");
+                }
+            });
+            
+    
+            // Update cart when storage changes (from other tabs/windows)
+            window.addEventListener('storage', () => {
+                shoppingCart = JSON.parse(localStorage.getItem("cartItems")) || [];
+                updateCartDisplay();
+            });
+        </script>
         <!-- drawer cart end -->
 
         <!-- all js -->
