@@ -75,6 +75,9 @@
   }
 
   function displayCart() {
+    setTimeout(() => {
+      window.location.href = "cart.html"; // Update this if your cart page path is different
+    }, 100);
     console.clear();
     console.log("🛒 Cart Items:");
     cart.forEach(item => {
