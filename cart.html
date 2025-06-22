@@ -351,102 +351,109 @@
                                     <script>
                                         // Get cart from localStorage or empty
                                         let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
-
+                                      
                                         // Save cart to localStorage
                                         function saveCart() {
-                                            localStorage.setItem("cartItems", JSON.stringify(cart));
+                                          localStorage.setItem("cartItems", JSON.stringify(cart));
                                         }
-
+                                      
                                         // Calculate totals and update UI
                                         function calculateTotals() {
-                                            let subtotal = 0;
-                                            cart.forEach(item => {
-                                                subtotal += item.price * item.quantity;
-                                            });
-
-                                            let discount = subtotal >= 200 ? 50 : 0; // ₹50 discount on ₹200+
-                                            let total = subtotal - discount;
-
-                                            // Update DOM
-                                            document.querySelector(".subtotal-box .subtotal-value").innerText = `₹${subtotal.toFixed(2)}`;
-                                            document.querySelector(".discount-box .subtotal-value").innerText = `₹${discount.toFixed(2)}`;
-                                            document.querySelector(".total-box .subtotal-value").innerText = `₹${total.toFixed(2)}`;
+                                          let subtotal = 0;
+                                          cart.forEach(item => {
+                                            subtotal += item.price * item.quantity;
+                                          });
+                                      
+                                          let discount = subtotal >= 200 ? 0 : 0; // Update logic as needed
+                                          let total = subtotal - discount;
+                                      
+                                          const subtotalEl = document.querySelector(".subtotal-box .subtotal-value");
+                                          const discountEl = document.querySelector(".discount-box .subtotal-value");
+                                          const totalEl = document.querySelector(".total-box .subtotal-value");
+                                      
+                                          if (subtotalEl) subtotalEl.innerText = `₹${subtotal.toFixed(2)}`;
+                                          if (discountEl) discountEl.innerText = `₹${discount.toFixed(2)}`;
+                                          if (totalEl) totalEl.innerText = `₹${total.toFixed(2)}`;
                                         }
-
+                                      
                                         // Render cart items
                                         function displayCart() {
-                                            const tbody = document.getElementById("cart-body");
-                                            tbody.innerHTML = "";
-
-                                            cart.forEach((item, index) => {
-                                                const row = document.createElement("tr");
-                                                row.classList.add("cart-item");
-
-                                                row.innerHTML = `
-        <td class="cart-item-media">
-          <div class="mini-img-wrapper">
-            <img class="mini-img" src="${item.image}" alt="img">
-          </div>
-        </td>
-        <td class="cart-item-details">
-          <h2 class="product-title"><a href="${item.link}">${item.name}</a></h2>
-          <p class="product-vendor">Edit Zone</p>
-        </td>
-        <td class="cart-item-quantity">
-          <div class="quantity d-flex align-items-center justify-content-between">
-            <button class="qty-btn dec-qty" onclick="changeQuantity(${index}, -1)">
-              <img src="assets/img/icon/minus.svg" alt="minus">
-            </button>
-            <input class="qty-input" type="number" value="${item.quantity}" readonly>
-            <button class="qty-btn inc-qty" onclick="changeQuantity(${index}, 1)">
-              <img src="assets/img/icon/plus.svg" alt="plus">
-            </button>
-          </div>
-          <a href="#" class="product-remove mt-2" onclick="removeItem(${index})">Remove</a>
-        </td>
-        <td class="cart-item-price text-end">
-          <div class="product-price">₹${(item.price * item.quantity).toFixed(2)}</div>
-        </td>
-      `;
-
-                                                tbody.appendChild(row);
-                                            });
-
-                                            calculateTotals(); // Refresh totals
+                                          const tbody = document.getElementById("cart-body");
+                                          if (!tbody) return;
+                                      
+                                          tbody.innerHTML = "";
+                                      
+                                          cart.forEach((item, index) => {
+                                            const row = document.createElement("tr");
+                                            row.classList.add("cart-item");
+                                      
+                                            row.innerHTML = `
+                                              <td class="cart-item-media">
+                                                <div class="mini-img-wrapper">
+                                                  <img class="mini-img" src="${item.image}" alt="img">
+                                                </div>
+                                              </td>
+                                              <td class="cart-item-details">
+                                                <h2 class="product-title"><a href="${item.link}">${item.name}</a></h2>
+                                                <p class="product-vendor">Edit Zone</p>
+                                              </td>
+                                              <td class="cart-item-quantity">
+                                                <div class="quantity d-flex align-items-center justify-content-between">
+                                                  <button class="qty-btn dec-qty" onclick="changeQuantity(${index}, -1)">
+                                                    <img src="assets/img/icon/minus.svg" alt="minus">
+                                                  </button>
+                                                  <input class="qty-input" type="number" value="${item.quantity}" readonly>
+                                                  <button class="qty-btn inc-qty" onclick="changeQuantity(${index}, 1)">
+                                                    <img src="assets/img/icon/plus.svg" alt="plus">
+                                                  </button>
+                                                </div>
+                                                <a href="#" class="product-remove mt-2" onclick="removeItem(${index})">Remove</a>
+                                              </td>
+                                              <td class="cart-item-price text-end">
+                                                <div class="product-price">₹${(item.price * item.quantity).toFixed(2)}</div>
+                                              </td>
+                                            `;
+                                      
+                                            tbody.appendChild(row);
+                                          });
+                                      
+                                          calculateTotals(); // Refresh totals
                                         }
-
+                                      
                                         // Update quantity
                                         function changeQuantity(index, delta) {
-                                            cart[index].quantity += delta;
-                                            if (cart[index].quantity <= 0) {
-                                                cart.splice(index, 1);
-                                            }
-                                            saveCart();
-                                            displayCart();
+                                          cart[index].quantity += delta;
+                                          if (cart[index].quantity <= 0) {
+                                            cart.splice(index, 1);
+                                          }
+                                          saveCart();
+                                          displayCart();
                                         }
-
+                                      
                                         // Remove item
                                         function removeItem(index) {
-                                            cart.splice(index, 1);
-                                            saveCart();
-                                            displayCart();
+                                          cart.splice(index, 1);
+                                          saveCart();
+                                          displayCart();
                                         }
-
+                                      
                                         // Add new product
                                         function addToCart(product) {
-                                            const index = cart.findIndex(item => item.id === product.id);
-                                            if (index !== -1) {
-                                                cart[index].quantity += 1;
-                                            } else {
-                                                cart.push({ ...product, quantity: 1 });
-                                            }
-                                            saveCart();
-                                            displayCart();
+                                          const index = cart.findIndex(item => item.id === product.id);
+                                          if (index !== -1) {
+                                            cart[index].quantity += 1;
+                                          } else {
+                                            cart.push({ ...product, quantity: 1 });
+                                          }
+                                          saveCart();
+                                          displayCart();
                                         }
-
-                                        // On load
-                                        displayCart();
-                                    </script>
+                                      
+                                        // ✅ Ensure DOM is loaded before rendering cart
+                                        document.addEventListener("DOMContentLoaded", () => {
+                                          displayCart();
+                                        });
+                                      </script>
 
                                 </table>
                             </div>
@@ -1029,18 +1036,8 @@
     
             // Initial render when page loads
             document.addEventListener('DOMContentLoaded', function () {
-                const container = document.getElementById("cart-items-container");
-                const countElement = document.getElementById("cart-count");
-                const subtotalElement = document.getElementById("cart-subtotal");
-            
-                // Only update if all elements exist
-                if (container && countElement && subtotalElement) {
-                    updateCartDisplay();
-                } else {
-                    console.warn("Cart elements not found in DOM yet.");
-                }
+                updateCartDisplay();
             });
-            
     
             // Update cart when storage changes (from other tabs/windows)
             window.addEventListener('storage', () => {
