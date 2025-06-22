@@ -44,8 +44,12 @@
     }
 
     saveCart();
+
     console.log(`✅ ${productName} added to cart`);
     displayCart();
+    setTimeout(() => {
+      window.location.href = "cart.html"; // Update this if your cart page path is different
+    }, 100);
   }
 
   function removeFromCart(productName) {
@@ -75,9 +79,9 @@
   }
 
   function displayCart() {
-    setTimeout(() => {
-      window.location.href = "cart.html"; // Update this if your cart page path is different
-    }, 100);
+    // setTimeout(() => {
+    //   window.location.href = "cart.html"; // Update this if your cart page path is different
+    // }, 100);
     console.clear();
     console.log("🛒 Cart Items:");
     cart.forEach(item => {
