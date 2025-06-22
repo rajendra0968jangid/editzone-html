@@ -368,9 +368,9 @@
                                             let total = subtotal - discount;
 
                                             // Update DOM
-                                            document.querySelector(".subtotal-box .subtotal-value").innerText = `$${subtotal.toFixed(2)}`;
-                                            document.querySelector(".discount-box .subtotal-value").innerText = `$${discount.toFixed(2)}`;
-                                            document.querySelector(".total-box .subtotal-value").innerText = `$${total.toFixed(2)}`;
+                                            document.querySelector(".subtotal-box .subtotal-value").innerText = `₹${subtotal.toFixed(2)}`;
+                                            document.querySelector(".discount-box .subtotal-value").innerText = `₹${discount.toFixed(2)}`;
+                                            document.querySelector(".total-box .subtotal-value").innerText = `₹${total.toFixed(2)}`;
                                         }
 
                                         // Render cart items
@@ -405,7 +405,7 @@
           <a href="#" class="product-remove mt-2" onclick="removeItem(${index})">Remove</a>
         </td>
         <td class="cart-item-price text-end">
-          <div class="product-price">$${(item.price * item.quantity).toFixed(2)}</div>
+          <div class="product-price">₹${(item.price * item.quantity).toFixed(2)}</div>
         </td>
       `;
 
@@ -469,7 +469,7 @@
                                             <hr />
                                             <div class="subtotal-item total-box">
                                                 <h4 class="subtotal-title">Total:</h4>
-                                                <p class="subtotal-value total-value">$0.00</p>
+                                                <p class="subtotal-value total-value">₹0.00</p>
                                             </div>
 
                                             <p class="shipping_text">Shipping & taxes calculated at checkout</p>
@@ -861,7 +861,7 @@
                         <div class="minicart-calc-area">
                             <div class="minicart-calc d-flex align-items-center justify-content-between">
                                 <span class="cart-subtotal mb-0">Subtotal</span>
-                                <span class="cart-subprice" id="cart-subtotal">$0.00</span>
+                                <span class="cart-subprice" id="cart-subtotal">₹0.00</span>
                             </div>
                             <p class="cart-taxes text-center my-4">Taxes and shipping will be calculated at checkout.</p>
                         </div>

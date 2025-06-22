@@ -3,19 +3,19 @@
   const products = [
     {
       name: "Edius 11",
-      price: 24,
+      price: 1529,
       image: "assets/img/products/grass-valley-edius-11.png",
       link: "edius11.html"
     },
     {
       name: "Cut Sense",
-      price: 24,
+      price: 1529,
       image: "assets/img/products/cut.png",
       link: "/cut-sense.html"
     },
     {
       name: "Album Sense",
-      price: 24,
+      price: 1529,
       image: "assets/img/products/insidelogic-album-sense.png",
       link: "album-sense.html"
     }
