@@ -18,6 +18,12 @@
       price: 1529,
       image: "assets/img/products/insidelogic-album-sense.png",
       link: "album-sense.html"
+    },
+    {
+      name: "Gold Projects Edit Zone",
+      price: 1529,
+      image: "assets/img/products/edit-zone-gold-projects.png",
+      link: "gold-project.html"
     }
   ];
 
