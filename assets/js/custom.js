@@ -3,7 +3,7 @@
   const products = [
     {
       name: "Edius 11",
-      price: 1529,
+      price: 1000,
       image: "assets/img/products/grass-valley-edius-11.png",
       link: "edius11.html"
     },
